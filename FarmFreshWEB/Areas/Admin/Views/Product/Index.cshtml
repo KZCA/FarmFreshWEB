@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ProductModel>
+
+@{
+    ViewData["Title"] = "Product";
+}
+
+<h1>Products</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>CategoryId</th>
+            <th>Count</th>
+            <th>Image</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+               @item.Name
+            </td>
+            <td>
+                @item.Category.Name
+            </td>
+            <td>
+                @item.Country
+            </td>
+            <td>
+                <img src="/media/screen3/@item.Image" width="100" alt=""/>
+            </td>            
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="confirmDeletion">Delete</a>                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <ul class="pagination">
+        @for (var i = 1; i <= ViewBag.TotalPage; i++)
+        {
+            <li class="page-item @(i == ViewBag.PageNumber ? "active" : "")">
+                <a asp-page="/product/@ViewBag.CategorySlug" asp-route-currentpage="@i" class="page-link">@i</a>
+            </li>
+        }
+    </ul>
+</div>
+
+@*@if (ViewBag.TotalPage > 1)
+	{
+		<div class="d-flex w-100 justify-content-center">
+			<pagination page-count="@ViewBag.TotalPage"
+						page-target="/product/@ViewBag.CategorySlug"
+						page-number="@ViewBag.PageNumber"
+						page-range="@ViewBag.PageRange">
+			</pagination>
+		</div>
+	}*@
